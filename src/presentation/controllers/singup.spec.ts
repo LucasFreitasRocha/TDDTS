@@ -12,5 +12,6 @@ describe('SingUp Controller', () => {
     }
     const httRes = sut.handle(httpRequest)
     expect(httRes.statusCode).toBe(400)
+    expect(httRes.body).toEqual(new Error('Missing params: name'))
   })
 })
