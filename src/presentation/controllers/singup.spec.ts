@@ -7,7 +7,7 @@ describe('SingUp Controller', () => {
     const httpRequest = {
       body: {
         email: 'any_email@mail.com',
-        passowrd: 'any_password',
+        password: 'any_password',
         passowrdConfirmation: 'any_password'
       }
     }
@@ -20,8 +20,8 @@ describe('SingUp Controller', () => {
     const httpRequest = {
       body: {
         name: 'any_name',
-        passowrd: 'any_password',
-        passowrdConfirmation: 'any_password'
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
       }
     }
     const httRes = sut.handle(httpRequest)
@@ -34,11 +34,24 @@ describe('SingUp Controller', () => {
       body: {
         name: 'any_name',
         email: 'any_email@mail.com',
-        passowrdConfirmation: 'any_password'
+        passwordConfirmation: 'any_password'
       }
     }
     const httRes = sut.handle(httpRequest)
     expect(httRes.statusCode).toBe(400)
     expect(httRes.body).toEqual(new MissingParamError('password'))
+  })
+  test('Should return 400 if no password confirmation is provided', () => {
+    const sut = new SignUpController()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    const httRes = sut.handle(httpRequest)
+    expect(httRes.statusCode).toBe(400)
+    expect(httRes.body).toEqual(new MissingParamError('passwordConfirmation'))
   })
 })
