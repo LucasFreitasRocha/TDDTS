@@ -17,7 +17,7 @@ const makeCreateAccount = (): CreateAccount => {
         id: 'valid_id',
         name: 'valid_name',
         email: 'valid_email@mail.com',
-        password: 'valid_passord'
+        password: 'valid_password'
       }
     }
   }
@@ -91,7 +91,6 @@ describe('SingUp Controller', () => {
     expect(httRes.statusCode).toBe(400)
     expect(httRes.body).toEqual(new MissingParamError('passwordConfirmation'))
   })
-
   test('Should return 400 if  password confirmation fails', () => {
     const { sut } = makeSut()
     const httpRequest = {
@@ -187,5 +186,24 @@ describe('SingUp Controller', () => {
     const httRes = sut.handle(httpRequest)
     expect(httRes.statusCode).toBe(500)
     expect(httRes.body).toEqual(new ServerError())
+  })
+  test('Should return 200 if valid data is provided', () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'valid_name',
+        email: 'valid_email@mail.com',
+        password: 'valid_password',
+        passwordConfirmation: 'valid_password'
+      }
+    }
+    const httRes = sut.handle(httpRequest)
+    expect(httRes.statusCode).toBe(200)
+    expect(httRes.body).toEqual({
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+      password: 'valid_password'
+    })
   })
 })
