@@ -76,6 +76,22 @@ describe('SingUp Controller', () => {
     expect(httRes.statusCode).toBe(400)
     expect(httRes.body).toEqual(new MissingParamError('passwordConfirmation'))
   })
+
+  test('Should return 400 if  password confirmation fails', () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        passwordConfirmation: 'another_password'
+
+      }
+    }
+    const httRes = sut.handle(httpRequest)
+    expect(httRes.statusCode).toBe(400)
+    expect(httRes.body).toEqual(new InvalidParamError('passwordConfirmation'))
+  })
   test('Should return 400 if an invalid email is provided', () => {
     const { sut, emailValidatorStub } = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
