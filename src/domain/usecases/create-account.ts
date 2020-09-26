@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/method-signature-style */
 import { AccountModel } from '../models/account'
 
 export interface CreateAccountModel {
@@ -6,5 +7,5 @@ export interface CreateAccountModel {
   password: string
 }
 export interface CreateAccount{
-  create: (account: CreateAccountModel) => Promise<AccountModel>
+  create (account: CreateAccountModel): Promise<AccountModel>
 }
