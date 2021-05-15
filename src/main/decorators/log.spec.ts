@@ -1,5 +1,5 @@
 import { LogErrorRepository } from '../../data/interfaces/log-error-repository'
-import { serverError } from './../../presentation/helpers/http-helper'
+import { ok, serverError } from './../../presentation/helpers/http-helper'
 import { Controller } from './../../presentation/interfaces/controller'
 import { HttpRequest, HttpResponse } from './../../presentation/interfaces/Http'
 import { LogControllerDecorator } from './log'
@@ -28,10 +28,7 @@ describe('LogControllerDecorator', () => {
   const makeSut = (): sutTypes => {
     class ControllerStub implements Controller {
       async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-        const httpResponse: HttpResponse = {
-          body: httpRequest.body,
-          statusCode: 200
-        }
+        const httpResponse: HttpResponse = ok(httpRequest.body)
         return new Promise(resolve => resolve(httpResponse))
       }
     }
@@ -43,7 +40,6 @@ describe('LogControllerDecorator', () => {
   test('should call controller handle', async () => {
     const { sut, controllerStub } = makeSut()
     const handleSpy = jest.spyOn(controllerStub, 'handle')
-
     const httpRequest: HttpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
     expect(handleSpy).toBeCalledWith(httpRequest)
@@ -52,10 +48,7 @@ describe('LogControllerDecorator', () => {
     const { sut } = makeSut()
     const httpRequest: HttpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual({
-      body: httpRequest.body,
-      statusCode: 200
-    })
+    expect(httpResponse).toEqual(ok(httpRequest.body))
   })
   test('should call logErrorRepository with correct error if controller returns a server error', async () => {
     const { sut, controllerStub, logErrorRepositoryStub } = makeSut()
