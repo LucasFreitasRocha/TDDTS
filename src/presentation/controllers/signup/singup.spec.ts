@@ -167,7 +167,7 @@ describe('SingUp Controller', () => {
     }
     const httRes = await sut.handle(httpRequest)
     expect(httRes.statusCode).toBe(500)
-    expect(httRes.body).toEqual(new ServerError())
+    expect(httRes.body).toEqual(new ServerError('teste'))
   })
   test('Should return 500 if CreateAccount throws ', async () => {
     const { sut, createAccountStub } = makeSut()
@@ -184,7 +184,7 @@ describe('SingUp Controller', () => {
     }
     const httRes = await sut.handle(httpRequest)
     expect(httRes.statusCode).toBe(500)
-    expect(httRes.body).toEqual(new ServerError())
+    expect(httRes.body).toEqual(new ServerError('teste'))
   })
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut()
