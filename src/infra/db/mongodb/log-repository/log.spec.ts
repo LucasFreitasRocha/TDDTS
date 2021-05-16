@@ -13,7 +13,7 @@ describe('Log Mongo Repository', () => {
     await MongoHelper.disconnect()
   })
   beforeEach(async () => {
-    errorCollection = await MongoHelper.getCollection('log-errors')
+    errorCollection = await MongoHelper.getCollection('errors')
     await (await errorCollection).deleteMany({})
   })
   const makeSut = (): LogErrorRepository => {
