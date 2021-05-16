@@ -1,6 +1,11 @@
+import { Collection } from 'mongodb'
+
+import { LogErrorRepository } from '../../../../data/interfaces/log-error-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
+import { LogMongoRepository } from './log'
 
 describe('Log Mongo Repository', () => {
+  let errorCollection: Collection
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
@@ -8,10 +13,16 @@ describe('Log Mongo Repository', () => {
     await MongoHelper.disconnect()
   })
   beforeEach(async () => {
-    const errorCollection = MongoHelper.getCollection('log-errors')
+    errorCollection = await MongoHelper.getCollection('log-errors')
     await (await errorCollection).deleteMany({})
   })
-  test('Should ', () => {
-    expect(1).toBe(1)
+  const makeSut = (): LogErrorRepository => {
+    return new LogMongoRepository()
+  }
+  test('Should  create an error log on success', async () => {
+    const sut = makeSut()
+    await sut.logError('any_error')
+    const count = await errorCollection.countDocuments()
+    expect(count).toBe(1)
   })
 })
