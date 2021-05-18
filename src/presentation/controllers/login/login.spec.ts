@@ -100,4 +100,13 @@ describe('', () => {
     const httpRes = await sut.handle(httpRequest)
     expect(httpRes).toEqual(unauthorized())
   })
+  test('Should return 500 if Authetication throws', async () => {
+    const { sut, authenticationStub } = makeSut()
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(
+      new Promise((resolve,reject) => reject(new Error()))
+    )
+    const httpRequest = makeFakeRequest()
+    const httpRes = await sut.handle(httpRequest)
+    expect(httpRes).toEqual(serverError(new Error('')))
+  })
 })
