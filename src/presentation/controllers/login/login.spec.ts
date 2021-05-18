@@ -1,10 +1,7 @@
-import { serverError, unauthorized } from './../../helpers/http-helper'
-import { EmailValidator } from './../../interfaces/email-validator'
+import { serverError, unauthorized, badRequest } from './../../helpers/http-helper'
 import { InvalidParamError, MissingParamError } from '../../errors'
-import { badRequest } from '../../helpers/http-helper'
 import LoginController from './LoginController'
-import { HttpRequest } from '../../interfaces'
-import { Authentication } from '../../../domain/usecases/authentication'
+import { Authentication, EmailValidator, HttpRequest } from './login-interfaces'
 
 describe('', () => {
   const makeFakeRequest = (): HttpRequest => ({
