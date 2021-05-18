@@ -1,3 +1,4 @@
+import { Validation } from './../../helpers/validators/validation'
 import { HttpRequest, HttpResponse, Controller, EmailValidator, CreateAccount } from './sign-interfaces'
 import { MissingParamError, InvalidParamError } from '../../errors/'
 import { badRequest, serverError, ok } from '../../helpers/http-helper'
@@ -5,9 +6,11 @@ import { badRequest, serverError, ok } from '../../helpers/http-helper'
 export default class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator
   private readonly createAccount: CreateAccount
-  constructor (emailValidator: EmailValidator, createAccount: CreateAccount) {
+  private readonly validation: Validation
+  constructor (emailValidator: EmailValidator, createAccount: CreateAccount, validation: Validation) {
     this.emailValidator = emailValidator
     this.createAccount = createAccount
+    this.validation = validation
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
